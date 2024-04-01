@@ -47,6 +47,21 @@ $ npm start           // run it locally
 PORT = 5000
 DB_URL = mongodb+srv://roni:173120@cluster0.cuyitno.mongodb.net/EcoSyncDB
 SECRET_KEY=rons173120
+
+
+
+### Login as admin
+- userEmail: demo@email.com
+- userPassword: demo
+
+### Login as STS manager
+- userEmail: demo.sts@gmail.com
+- userPassword: 123456
+
+### Login as Landfill manager
+- userName: demo.lf@gmail.com
+- userPassword: 123456
+
 ### License
 
 
