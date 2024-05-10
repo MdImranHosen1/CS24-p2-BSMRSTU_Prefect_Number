@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import profileImg1 from "./../../assets/user.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import profileImg1 from "./../../assets/truckDriver.png";
 import { Button } from "@mui/material";
 
 import Box from "@mui/material/Box";
@@ -69,7 +69,7 @@ export const VehiclesDetailsPage = () => {
           </b>
 
           <VehiclesForm update={1} data={data} />
-          
+
 
           <div className=" ml-48">
             <Button
