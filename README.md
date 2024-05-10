@@ -51,7 +51,7 @@ SECRET_KEY=rons173120
 
 
 ### Login as admin
-- userEmail: demo@email.com
+- userEmail: demo@gmail.com
 - userPassword: demo
 
 ### Login as STS manager
