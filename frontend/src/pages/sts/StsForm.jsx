@@ -5,8 +5,6 @@ import { postSts, updateSts } from "../../redux/slices/stsSlice";
 import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 import UpdateIcon from "@mui/icons-material/Update";
 import AddRoadTwoToneIcon from "@mui/icons-material/AddRoadTwoTone";
-
-
 const YOUR_API_KEY = "AIzaSyD4j0TwyOoZTpLmAjJ8j8zlf7jA2ya31MA";
 
 export const StsForm = ({ update = 0, data = {} }) => {

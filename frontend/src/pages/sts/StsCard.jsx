@@ -11,7 +11,7 @@ export default function StsCard({ sts }) {
     <div class="  flex  items-center w-full  bg-white border border-gray-100 rounded-lg shadow   hover:bg-gray-200">
       {/* <img src={img} alt="Photo" /> */}
       <div className=" rounded-md object-cover rounded-t-lg h-full w-1/3 p-2">
-        <MyMap />
+        <MyMap coordinate={sts.coordinate} />
       </div>
 
       <div class="flex justify-between w-full">

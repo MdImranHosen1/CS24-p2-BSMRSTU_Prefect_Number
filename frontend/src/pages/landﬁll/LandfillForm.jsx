@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
-
+import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 import UpdateIcon from "@mui/icons-material/Update";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { postLandfill, updateLandfill } from "../../redux/slices/landfullSlice";
+const YOUR_API_KEY = "AIzaSyD4j0TwyOoZTpLmAjJ8j8zlf7jA2ya31MA";
+
 
 export const LandfillForm = ({ update = 0, data = {} }) => {
   const [viewModel, setViewModel] = useState(false);
@@ -18,11 +20,20 @@ export const LandfillForm = ({ update = 0, data = {} }) => {
     update ? data?.operationTimespan : ""
   );
   const [managerId, setManagerId] = useState(update ? data?.managerId : "");
+  const [autocomplete, setAutocomplete] = useState(null);
 
   const toggleViewModel = () => {
     document.body.style.overflow = viewModel ? "auto" : "hidden";
     setViewModel(!viewModel);
   };
+
+  const handlePlaceSelect = () => {
+    const lat = autocomplete.getPlace().geometry.location.lat();
+    const lng = autocomplete.getPlace().geometry.location.lng();
+    setCoordinate(`${lat}, ${lng}`);
+  };
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,7 +48,7 @@ export const LandfillForm = ({ update = 0, data = {} }) => {
     };
 
     if (update === 0) {
-      console.log("landfillData",landfillData)
+      console.log("landfillData", landfillData)
       dispatch(postLandfill(landfillData));
       // setLfId("");
       // setName("");
@@ -171,23 +182,35 @@ export const LandfillForm = ({ update = 0, data = {} }) => {
                     required
                   />
                 </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="coordinate"
-                    className="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Coordinate
-                  </label>
-                  <input
-                    type="text"
-                    name="coordinate"
-                    id="coordinate"
-                    value={coordinate}
-                    onChange={(e) => setCoordinate(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Enter coordinate"
-                    required
-                  />
+              
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="coordinate"
+                      className="block mb-2 text-sm font-medium text-gray-900"
+                    >
+                      STS Coordinate
+                    </label>
+
+                    <LoadScript googleMapsApiKey={YOUR_API_KEY} libraries={["places"]}>
+                      <Autocomplete
+                        onLoad={(autocomplete) => {
+                          setAutocomplete(autocomplete); // Set autocomplete variable
+                        }}
+                        onPlaceChanged={handlePlaceSelect} // Use handlePlaceSelect directly
+                      >
+                        <TextField
+                          type="text"
+                          name="coordinate"
+                          id="coordinate"
+                          value={coordinate}
+                          onChange={(e) => setCoordinate(e.target.value)}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="Type STS coordinate"
+                          required
+                        />
+                      </Autocomplete>
+                    </LoadScript>
+
                 </div>
                 <div className="col-span-2">
                   <label

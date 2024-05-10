@@ -19,10 +19,10 @@ export const LandfillDetailsPage = () => {
   const dispatch = useDispatch();
 
   const data = useSelector((state) => state.landfill.data[0]);
-  
+
   useEffect(() => {
     dispatch(getLandfillById(id));
-  }, [dispatch, id, data]);
+  }, [dispatch, id]);
 
   if (!data) {
     return (
@@ -33,6 +33,8 @@ export const LandfillDetailsPage = () => {
       </div>
     );
   }
+
+  console.log("data", data);
 
   const onDeleteData = () => {
     const isConfirmed = window.confirm("Do you want to delete the landfill?");
@@ -46,7 +48,7 @@ export const LandfillDetailsPage = () => {
   return (
     <div className="flex w-full p-10 h-full">
       <div className="rounded-md w-1/4 p-5 bg-sky-500 h-full">
-        <MyMap />
+        <MyMap coordinate={data.coordinate} />
       </div>
       <div className="w-3/4 p-5">
         <h1 className="font-bold text-2xl ml-5">About</h1>
