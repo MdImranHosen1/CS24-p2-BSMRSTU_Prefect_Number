@@ -24,6 +24,7 @@ import RolesAssignPermissionPage from './pages/roles/RolesAssignPermissionPage';
 import { RoleDetailsPage } from "./pages/roles/RoleDetailesPage";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Contractors3rdPartyPage } from "./pages/3rdPartyContractor/Contractors3rdPartyPage";
+import { ContractorManagerPage } from "./pages/contractorManager/ContractorManagerPage";
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
         {/* users */}
         <Route exact path="/users" element={<UsersPage />} />
         <Route exact path="/users/:userId" element={<UserDetailsPage />} />
+
+        {/*  contractors manager page */}
+        <Route exact path="/contractorsManager" element={<ContractorManagerPage />} />
 
         {/* 3rd party contractors page */}
         <Route exact path="/3rdPartContractor" element={<Contractors3rdPartyPage />} />

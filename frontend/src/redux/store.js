@@ -9,6 +9,9 @@ import permissionsReducer from './slices/permissionSlice';
 import rolesReducer from './slices/rolesSlice';
 import transactionReducer from './slices/transactionsSlice'
 import billReducer from './slices/billSlice'
+import contractors3rdPartyReducer from './slices/Contractors3rdPartySlice'
+import  contractorsManagerReducer  from './slices/ContractorManagerSlice'
+
 
 
 
@@ -23,5 +26,7 @@ export default configureStore({
         roles: rolesReducer,
         transactions: transactionReducer,
         bills: billReducer,
+        contractors3rdParty: contractors3rdPartyReducer,
+        contractorsManager: contractorsManagerReducer,
     },
 })

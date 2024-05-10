@@ -17,10 +17,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/userHandleSlice";
 
-let pages = ["Users", "3rd party Contractors","Vehicles", "STS", "Landfill", "Roles", "Permissions"];
+let pages = ["Users","Contractors Manager", "3rd party Contractors","Vehicles", "STS", "Landfill", "Roles", "Permissions"];
 
 let pagesLink = [
   "/users",
+  "/contractorsManager",
   "/3rdPartContractor",
   "/vehicles",
   "/sts",
@@ -139,7 +140,7 @@ export const Navbar = () => {
                   to={pagesLink[index]}
                   className={`${userType === "admin" ? "" : "hidden"}`}
                 >
-                  <MenuItem key={index} onClick={handleCloseNavMenu}>
+                  <MenuItem key={index} onClick={handleCloseNavMenu} >
                     <Typography textAlign="center">{value}</Typography>
                   </MenuItem>
                 </Link>

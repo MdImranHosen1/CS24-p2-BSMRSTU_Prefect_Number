@@ -42,9 +42,9 @@ export const updateUser = createAsyncThunk('users/updateUser', async ({ userId, 
 
 export const deleteUserById = createAsyncThunk('users/deleteUserById', async (userId) => {
 
-    console.log("first", userId)
+    // console.log("first", userId)
     const response = await axios.delete(`http://localhost:5000/users/${userId}`);
-    console.log("second", userId)
+    // console.log("second", userId)
     return response.data;
 });
 

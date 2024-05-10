@@ -1,32 +1,34 @@
 import * as React from "react";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import Contractors3rdPartyCard from "./Contractors3rdPartyCard";
-import { Contractors3rdPartyForm } from "./Contractors3rdPartyForm";
-import { getContractors3rdParty } from "../../redux/slices/Contractors3rdPartySlice";
+import { ContractorManagerForm } from "./ContractorManagerForm";
+import ContractorManagerCard from "./ContractorManagerCard";
+import { getContractorsManager } from "../../redux/slices/ContractorManagerSlice";
 
 
-export const Contractors3rdPartyPage = () => {
+export const ContractorManagerPage = () => {
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.contractors3rdParty);
+  const data = useSelector((state) => state.contractorsManager);
   const users = data.data;
 
   useEffect(() => {
-    dispatch(getContractors3rdParty());
+    dispatch(getContractorsManager());
   }, [dispatch]);
 
   return (
     <div className="w-screen flex">
       <div className=" w-1/4 p-5">
-        <Contractors3rdPartyForm update={0}/>
+        <ContractorManagerForm update={0}/>
+        
       </div>
       <div className=" w-3/4 p-5">
         {users.map((value) => {
           return (
             <div className=" w-full mb-1 pr-3">
-              <Contractors3rdPartyCard users={value} />
+              <ContractorManagerCard users={value} />
             </div>
           );
         })}
