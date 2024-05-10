@@ -3,6 +3,8 @@ import img from "./../../assets/user.png";
 import ReadMoreOutlinedIcon from "@mui/icons-material/ReadMoreOutlined";
 import { Button } from "@mui/material";
 
+
+
 export default function ContractorManagerCard({ users }) {
   return (
     <div class="  flex  items-center w-full  bg-white border border-gray-100 rounded-lg shadow   hover:bg-gray-200">
@@ -13,15 +15,14 @@ export default function ContractorManagerCard({ users }) {
       />
       <div class="flex justify-between w-full">
         <div class="p-5">
-          <b>
-            <h1 class="mb-1">Name: {users.userName}</h1>
-            <h4 class="mb-1">Type: {users.userType}</h4>
-            <h4 class="mb-1">Phone Number: {users.userPhone}</h4>
-            <h4 class="mb-1">Email: {users.userEmail}</h4>
-            <h4 class="mb-1">Roles: {users.userRoles}</h4>
-            <h4 className="mb-1">STS/Lanfill :{users.stsOrLandfillNum}</h4>
+        <b>
+            <h1 className="mb-1">Name: {users.fullName}</h1>
+            <h4 className="mb-1">Phone Number: {users.contactNumber}</h4>
+            <h4 className="mb-1">Email: {users.email}</h4>
+            <h4 className="mb-1">Access Level: {users.accessLevel}</h4>
+            <h4 className="mb-1">Assigned  Contractor  Company: {users.assignedContractorCompany}</h4>
           </b>
-          <a href={`/users/${users._id}`}>
+          <a href={`/contractorManager/${users.userId}`}>
             <Button
               variant="contained"
               className="w-24"

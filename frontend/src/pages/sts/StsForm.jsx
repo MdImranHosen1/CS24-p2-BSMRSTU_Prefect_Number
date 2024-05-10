@@ -13,6 +13,9 @@ export const StsForm = ({ update = 0, data = {} }) => {
   const [wardNum, setWardNum] = useState(update ? data?.wardNum : "");
   const [capacity, setCapacity] = useState(update ? data?.capacity : "");
   const [coordinate, setCoordinate] = useState(update ? data?.coordinate : "");
+  const [fine, setFine] = useState(update ? data?.fine : "");
+  const [startingTime, setStartingTime] = useState(update ? data?.startingTime : "");
+  const [endingTime, setEndingTime] = useState(update ? data?.endingTime : "");
   const [managers, setManagers] = useState(
     update ? data?.managers.join(", ") : ""
   );
@@ -26,10 +29,13 @@ export const StsForm = ({ update = 0, data = {} }) => {
 
     const stsData = {
       stsName: stsName,
-      stsNum: stsNum?stsNum:"None",
+      stsNum: stsNum ? stsNum : "None",
       wardNum: wardNum,
       capacity: capacity,
       coordinate: coordinate,
+      startingTime: startingTime,
+      endingTime: endingTime,
+      fine: fine,
       managers: [managers],
     };
 
@@ -39,6 +45,9 @@ export const StsForm = ({ update = 0, data = {} }) => {
       setStsNum("");
       setWardNum("");
       setCapacity("");
+      setStartingTime("");
+      setEndingTime("");
+      setFine("");
       setCoordinate("");
       setManagers("");
     } else if (update === 1) {
@@ -50,7 +59,7 @@ export const StsForm = ({ update = 0, data = {} }) => {
 
   return (
     <div>
-      <div className="fixed w-1/4 ">
+      <div className="fixed w-1/4 pr-8 ">
         {update ? (
           <>
             <Button
@@ -183,6 +192,60 @@ export const StsForm = ({ update = 0, data = {} }) => {
                     onChange={(e) => setCapacity(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Type STS capacity"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="startingTime"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Starting Time
+                  </label>
+                  <input
+                    type="time"
+                    name="startingTime"
+                    id="startingTime"
+                    value={startingTime}
+                    onChange={(e) => setStartingTime(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Type Starting Time"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="endingTime"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Ending Time
+                  </label>
+                  <input
+                    type="time"
+                    name="endingTime"
+                    id="endingTime"
+                    value={endingTime}
+                    onChange={(e) => setEndingTime(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Type Ending Time"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label
+                    htmlFor="fine"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Fine
+                  </label>
+                  <input
+                    type="text"
+                    name="fine"
+                    id="fine"
+                    value={fine}
+                    onChange={(e) => setFine(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Type the fine amount"
                     required
                   />
                 </div>

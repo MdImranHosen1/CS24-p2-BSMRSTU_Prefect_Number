@@ -14,15 +14,21 @@ export default function Contractors3rdPartyCard({ users }) {
       />
       <div class="flex justify-between w-full">
         <div class="p-5">
-          <b>
-            <h1 class="mb-1">Name: {users.userName}</h1>
-            <h4 class="mb-1">Type: {users.userType}</h4>
-            <h4 class="mb-1">Phone Number: {users.userPhone}</h4>
-            <h4 class="mb-1">Email: {users.userEmail}</h4>
-            <h4 class="mb-1">Roles: {users.userRoles}</h4>
-            <h4 className="mb-1">STS/Lanfill :{users.stsOrLandfillNum}</h4>
+        <b>
+            <h1 className="mb-1">Company Name: {users.companyName}</h1>
+            <h4 className="mb-1">Contract ID: {users.contractId}</h4>
+            {/* <h4 className="mb-1">Registration ID: {users.registrationId}</h4>
+            <h4 className="mb-1">Registration Date: {users.registrationDate}</h4>
+            <h4 className="mb-1">TIN: {users.tin}</h4> */}
+            <h4 className="mb-1">Contact Number: {users.contactNumber}</h4>
+            <h4 className="mb-1">Workforce Size: {users.workforceSize}</h4>
+            <h4 className="mb-1">Payment Per Tonnage: {users.paymentPerTonnage}</h4>
+            {/* <h4 className="mb-1">Required Waste Per Day: {users.requiredWastePerDay}</h4> */}
+            {/* <h4 className="mb-1">Contract Duration: {users.contractDuration}</h4> */}
+            <h4 className="mb-1">Area of Collection: {users.areaOfCollection}</h4>
+            <h4 className="mb-1">Designated STS: {users.designatedSts}</h4>
           </b>
-          <a href={`/users/${users._id}`}>
+          <a href={`/3rdPartContractor/${users._id}`}>
             <Button
               variant="contained"
               className="w-24"

@@ -16,6 +16,7 @@ import TransCard from "./TransCard";
 import { BillsForm } from "../landﬁll/billing/BillsForm";
 import { getBills } from "../../redux/slices/billSlice";
 import BillsCard from "./BillsCard";
+import { MonitoringTransportedWasteForm } from "../sts/billing/MonitoringTransportedWasteForm";
 
 export const UserDetailsPage = () => {
   const { userId } = useParams();
@@ -34,8 +35,7 @@ export const UserDetailsPage = () => {
     dispatch(getBills());
   }, [dispatch, userId]);
   // console.log("userType",userType);
-  if(!user)
-  {
+  if (!user) {
     return (
       <div>
         <Box sx={{ width: "100%" }}>
@@ -45,7 +45,7 @@ export const UserDetailsPage = () => {
     );
   }
 
-  
+
   if (!user) {
 
     if (userType === 'admin') {
@@ -84,6 +84,7 @@ export const UserDetailsPage = () => {
 
 
   }
+  console.log("user: ", user);
 
   const onDeleteUser = () => {
     const isConfirmed = window.confirm("Are you confirm to delete the user?");
@@ -95,9 +96,7 @@ export const UserDetailsPage = () => {
     }
   };
 
-  const onAddBill = () => { };
 
-  const onAddTransaction = () => { };
 
   return (
     <div>
@@ -123,7 +122,7 @@ export const UserDetailsPage = () => {
             <UserForm update={1} user={user} />
 
             <div className=" mt-16 w-72">
-{userType==='admin'?<Button
+              {userType === 'admin' ? <Button
                 variant="contained"
                 className="w-72"
                 color="error"
@@ -131,14 +130,14 @@ export const UserDetailsPage = () => {
                 startIcon={<DeleteForeverOutlinedIcon />}
               >
                 Delete User
-              </Button>:""}
-              
+              </Button> : ""}
+
             </div>
           </div>
         </div>
       </div>
       <div className="p-10">
-        {userType === "Landfill Manager" ? (
+        {user.userType === "Landfill Manager" ? (
           <>
             <BillsForm data={user} />
             <div className=" mt-5">
@@ -152,9 +151,18 @@ export const UserDetailsPage = () => {
           ""
         )}
 
-        {userType === "STS Manager" ? (
+        {user.userType === "STS Manager" ? (
           <>
             <TransactionForm data={user} />
+            <div className=" mt-2">
+              <Button
+                variant="contained"
+                className="w-auto "
+              >
+                Genarate Today Bill
+              </Button>
+            </div>
+            <MonitoringTransportedWasteForm/>
             <div className=" mt-5">
               <div className=" text-4xl text-center m-2 font-bold">
                 Transactions List
@@ -166,10 +174,10 @@ export const UserDetailsPage = () => {
           ""
         )}
 
-        {userType === "admin" ? (
+        {user.userType === "admin" ? (
           <>
             <TransactionForm data={user} />
-            <BillsForm data={user} />
+            <div> <BillsForm data={user} /></div>
             <div className=" flex w-full p-5">
               <div className=" mt-5 w-1/2">
                 <div className=" text-4xl text-center m-2 font-bold">

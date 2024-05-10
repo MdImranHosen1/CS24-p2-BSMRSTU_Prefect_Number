@@ -64,7 +64,7 @@ export const BillsForm = ({ update = 0, data = {} }) => {
           startIcon={<AddRoadTwoToneIcon />}
           onClick={toggleAddView}
         >
-          Add Bill
+          Add Landfill Bill
         </Button>
       </div>
 
@@ -81,7 +81,7 @@ export const BillsForm = ({ update = 0, data = {} }) => {
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {update ? "Update Bill" : "Add New Bill"}
+                {update ? "Update Landfill Bill" : "Add New Landfill Bill"}
               </h3>
               <button
                 type="button"
@@ -234,7 +234,7 @@ export const BillsForm = ({ update = 0, data = {} }) => {
                 </div>
               </div>
               <Button variant="contained" className="w-full" type="submit">
-                {update ? "Update Bill" : "Add Bill"}
+                {update ? "Update Landfill Bill" : "Add Landfill Bill"}
               </Button>
             </form>
           </div>
