@@ -19,6 +19,7 @@ const monitorTransportWaste = require('./routes/monitor.Transport.waste.routes')
 const billGeneration = require('./routes/bill.generation.by.sts.routes')
 const neighborhood = require('./routes/neighborhood.routes')
 const workforceTracking = require('./routes/workforce.tracking.routes')
+const citizenNews = require('./routes/citizen.news.routes')
 
 
 
@@ -51,6 +52,12 @@ app.use("/monitor-transported-waste", monitorTransportWaste)
 app.use("/bill-generation-sts", billGeneration)
 app.use("/neighborhood", neighborhood)
 app.use("/work-force-tracking", workforceTracking)
+app.use("/citizen-news", citizenNews)
+
+
+
+
+
 
 
 //Root Route

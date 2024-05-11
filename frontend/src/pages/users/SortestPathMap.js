@@ -43,7 +43,8 @@ const GoogleMapComponent = ({ coordinate1, coordinate2, apiKey=YOUR_API_KEY }) =
         travelMode: 'DRIVING',
       },
       (response, status) => {
-        if (status === 'OK') {
+        try {
+          if (status === 'OK') {
           directionsRenderer.setDirections(response);
           directionsRenderer.setMap(map);
           const route = response.routes[0];
@@ -52,8 +53,10 @@ const GoogleMapComponent = ({ coordinate1, coordinate2, apiKey=YOUR_API_KEY }) =
             totalDistance += leg.distance.value;
           });
           setDistance(totalDistance / 1000); // Converting distance from meters to kilometers
-        } else {
-          window.alert('Directions request failed due to ' + status);
+        }
+          
+        } catch (error) {
+          window.alert('Directions request failed due to ' + error);
         }
       }
     );

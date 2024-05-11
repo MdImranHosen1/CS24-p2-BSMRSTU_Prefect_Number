@@ -1,17 +1,34 @@
-// BillsForm.js
-
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import UpdateIcon from "@mui/icons-material/Update";
+
+import { getVehicleById, getVehicles } from "../../../redux/slices/vehiclesSlice";
 import AddRoadTwoToneIcon from "@mui/icons-material/AddRoadTwoTone";
 import { postBill, updateBill } from "./../../../redux/slices/billSlice";
-import { getStsById } from "../../../redux/slices/stsSlice";
-import { getLandfillById } from "../../../redux/slices/landfullSlice";
-import { useParams } from "react-router-dom";
-import { getUserById } from "../../../redux/slices/usersSlice";
-import SortestPath from "../../users/SortestPath";
-import { getVehicleById } from "../../../redux/slices/vehiclesSlice";
+import { getSts, getStsById } from "../../../redux/slices/stsSlice";
+import { getLandfillById, getLandfills } from "../../../redux/slices/landfullSlice";
+import getDistance from "../../users/SortestPath";
+
+const YOUR_API_KEY = "AIzaSyD4j0TwyOoZTpLmAjJ8j8zlf7jA2ya31MA";
+// const getDistance = async (coordinate1, coordinate2, apiKey = YOUR_API_KEY) => {
+//   const response = await fetch(
+//     `https://maps.googleapis.com/maps/api/directions/json?origin=${coordinate1}&destination=${coordinate2}&key=${apiKey}&mode=driving`
+//   );
+//   const data = await response.json();
+//   if (data.status === 'OK') {
+//     const route = data.routes[0];
+//     let totalDistance = 0;
+//     route.legs.forEach((leg) => {
+//       totalDistance += leg.distance.value;
+//     });
+//     return totalDistance / 1000; // Converting distance from meters to kilometers
+//   } else {
+//     console.error('Directions request failed due to ' + data.status);
+//     return null;
+//   }
+// };
+
+
 
 export const BillsForm = ({ update = 0, data = {} }) => {
   const [viewUserModel, setViewUserModel] = useState(false);
@@ -20,53 +37,62 @@ export const BillsForm = ({ update = 0, data = {} }) => {
   const [landFillId, setLandFillId] = useState(update ? data?.landFillId : "");
   const [vId, setVId] = useState(update ? data?.vId : "");
   const [stsId, setStsId] = useState(update ? data?.stsId : "");
-  const [weightWaste, setWeightWaste] = useState(
-    update ? data?.weightWaste : ""
-  );
-  const [arrivalTime, setArrivalTime] = useState(
-    update ? data?.arrivalTime : ""
-  );
-  const [departureTime, setDepartureTime] = useState(
-    update ? data?.departureTime : ""
-  );
-  const [totalFuelCost, setTotalFuelCost] = useState(
-    update ? data?.totalFuelCost : ""
-  );
+  const [weightWaste, setWeightWaste] = useState(update ? data?.weightWaste : "");
+  const [arrivalTime, setArrivalTime] = useState(update ? data?.arrivalTime : "");
+  const [departureTime, setDepartureTime] = useState(update ? data?.departureTime : "");
+  const [totalFuelCost, setTotalFuelCost] = useState(update ? data?.totalFuelCost : "");
 
   const toggleAddView = () => {
     document.body.style.overflow = viewUserModel ? "auto" : "hidden";
     setViewUserModel(!viewUserModel);
   };
-  const { userId } = useParams();
 
-  const staData = useSelector((state) => state.sts.data[0]);
-  const landfilldata = useSelector((state) => state.landfill.data[0]);
-  const vehicleData = useSelector((state) => state.vehicles.data[0]);
-  // console.log("staData", staData, "landfilldata", landfilldata, "userLandfillNum", userLandfillNum, "vehicleData", vehicleData);
-  
-  useEffect(() => {
-    dispatch(getLandfillById(landFillId));
-  }, [dispatch, landFillId]);
+
+  const staAllData = useSelector((state) => state.sts.data);
+  const landfillAlldata = useSelector((state) => state.landfill.data);
+  const vehicleAllData = useSelector((state) => state.vehicles.data);
 
   useEffect(() => {
-    dispatch(getStsById(stsId));
-  }, [dispatch, stsId]);
+    dispatch(getLandfills());
+    dispatch(getSts());
+    dispatch(getVehicles());
+  }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getVehicleById(vId));
-  }, [dispatch, vId]);
+  const Sdata = useSelector((state) => state.sts.data[0]);
+  const Ldata = useSelector((state) => state.landfill.data[0]);
+  const Vdata = useSelector((state) => state.vehicles.data[0]);
 
-  if(staData && landfilldata)
-  {
-    const distance = SortestPath(landfilldata?.coordinate, staData?.coordinate)
-  }
-
-
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
 
+
+
+    dispatch(getStsById(stsId));
+    dispatch(getLandfillById(landFillId));
+    dispatch(getVehicleById(vId));
+
+
+    console.log("Vdata", Vdata)
+    console.log(Sdata)
+    console.log(Ldata);
+
+    const coordinate1 = Ldata.coordinate;
+    const coordinate2 = Sdata.coordinate;
+
+    // console.log("coordinate1", coordinate1);
+
+    // const distance = await getDistance(coordinate1, coordinate2)
+
+    // const distance = Vdata.capacity;
+    let distance = getDistance(coordinate1, coordinate2)
+
+
+    // if (distance === null) distance = 10;
+
+
+    const avarageCost = (Vdata.costUnloaded) + (weightWaste / parseInt(Vdata.capacity)) * (Vdata.costLoaded - Vdata.costUnloaded)
+    const totalCost = avarageCost * distance
     const billData = {
       landFillId: landFillId,
       vId: vId,
@@ -74,8 +100,9 @@ export const BillsForm = ({ update = 0, data = {} }) => {
       weightWaste: weightWaste,
       arrivalTime: arrivalTime,
       departureTime: departureTime,
-      totalFuelCost: totalFuelCost,
+      totalFuelCost: totalCost,
     };
+    console.log("billData", billData)
 
     if (update === 0) {
       dispatch(postBill(billData));
@@ -140,24 +167,43 @@ export const BillsForm = ({ update = 0, data = {} }) => {
             </div>
             <form onSubmit={handleSubmit} className="p-4 md:p-5">
               <div className="grid gap-4 mb-4 grid-cols-2">
+                <select
+                  id="stsId"
+                  name="stsId"
+                  value={stsId._id} // Set the value to the _id property of stsId
+                  onChange={(e) => setStsId(e.target.value)} // Update stsId with the selected _id
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                >
+                  {staAllData.map((value, index) => (
+                    <option key={index} value={value._id}> {/* Set the value to the _id property */}
+                      {value._id}{" "}{value.stsName}
+                    </option>
+                  ))}
+                </select>
+
                 <div className="col-span-2">
                   <label
-                    htmlFor="vtId"
+                    htmlFor="landFillId"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     Landfill ID
                   </label>
-                  <input
-                    type="text"
-                    name="vtId"
-                    id="vtId"
-                    value={landFillId}
-                    onChange={(e) => setLandFillId(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Enter vehicle type ID"
-                    required
-                  />
+                  <select
+                    id="landFillId"
+                    name="landFillId"
+                    value={landFillId._id} // Set the value to the _id property of landFillId
+                    onChange={(e) => setLandFillId(e.target.value)} // Update landFillId with the selected _id
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                  >
+                    {landfillAlldata.map((value, index) => (
+                      <option key={index} value={value._id}> {/* Set the value to the _id property */}
+                        {value._id}{" "}{value.name}
+                      </option>
+                    ))}
+                  </select>
+
                 </div>
+
                 <div className="col-span-2">
                   <label
                     htmlFor="vId"
@@ -165,35 +211,24 @@ export const BillsForm = ({ update = 0, data = {} }) => {
                   >
                     Vehicle ID
                   </label>
-                  <input
-                    type="text"
-                    name="vId"
+                  <select
                     id="vId"
-                    value={vId}
-                    onChange={(e) => setVId(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Enter vehicle ID"
-                    required
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="stsId"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    name="vId"
+                    value={vId._id} // Set the value to the _id property of vId
+                    onChange={(e) => setVId(e.target.value)} // Update vId with the selected _id
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                   >
-                    STS ID
-                  </label>
-                  <input
-                    type="text"
-                    name="stsId"
-                    id="stsId"
-                    value={stsId}
-                    onChange={(e) => setStsId(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Enter STS ID"
-                    required
-                  />
+                    {vehicleAllData.map((value, index) => (
+                      <option key={index} value={value._id}> {/* Set the value to the _id property */}
+                        {value._id}{" "}{value.regNum}
+
+
+                      </option>
+                    ))}
+                  </select>
+
                 </div>
+
                 <div className="col-span-2">
                   <label
                     htmlFor="weightWaste"
@@ -246,7 +281,6 @@ export const BillsForm = ({ update = 0, data = {} }) => {
                     required
                   />
                 </div>
-                
               </div>
               <Button variant="contained" className="w-full" type="submit">
                 {update ? "Update Landfill Bill" : "Add Landfill Bill"}
