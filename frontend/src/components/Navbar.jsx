@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/userHandleSlice";
 
-let pages = ["Users","Contractors Manager", "3rd party Contractors","Vehicles", "STS", "Landfill", "Roles", "Permissions"];
+let pages = ["Users", "Contractor Manager", "3rd party Contractor", "Vehicles", "STS", "Landfill", "Roles", "Permissions"];
 
 let pagesLink = [
   "/users",

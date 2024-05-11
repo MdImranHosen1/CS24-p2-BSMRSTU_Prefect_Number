@@ -11,6 +11,8 @@ import transactionReducer from './slices/transactionsSlice'
 import billReducer from './slices/billSlice'
 import contractors3rdPartyReducer from './slices/Contractors3rdPartySlice'
 import  contractorsManagerReducer  from './slices/ContractorManagerSlice'
+import  monitorTransportedWasteReducer  from './slices/MonitorTransportedWasteSlice'
+import WorkForcesReducer from './slices/WorkForcesSlice'
 
 
 
@@ -28,5 +30,7 @@ export default configureStore({
         bills: billReducer,
         contractors3rdParty: contractors3rdPartyReducer,
         contractorsManager: contractorsManagerReducer,
+        monitorTransportedWaste:monitorTransportedWasteReducer,
+        workForces:WorkForcesReducer,
     },
 })

@@ -11,6 +11,18 @@ const stsTransactioRoutes = require('./routes/sts.transaction.routes')
 const lanfillBillRoutes = require('./routes/landfill.bill.routes')
 const permissionRoutes = require('./routes/permission.routes')
 const landfillRoutes = require('./routes/landfill.routes')
+const thirdPartyContractorRoutes = require('./routes/third.party.contractor.routes')
+const contractorManager = require('./routes/contractor.manager.routes')
+const workforceRegistration = require('./routes/workforce.registration.routes')
+//
+const monitorTransportWaste = require('./routes/monitor.Transport.waste.routes')
+const billGeneration = require('./routes/bill.generation.by.sts.routes')
+const neighborhood = require('./routes/neighborhood.routes')
+const workforceTracking = require('./routes/workforce.tracking.routes')
+
+
+
+
 
 const cors = require('cors')
 require("./config/passport");
@@ -30,6 +42,15 @@ app.use("/sts/", stsRoutes)
 app.use("/landfills/bills/", lanfillBillRoutes)
 app.use("/landfills/", landfillRoutes)
 app.use("/rabc/permissions/", permissionRoutes)
+//New Features
+app.use("/third-party-contractor", thirdPartyContractorRoutes)
+app.use("/contractor-manager", contractorManager)
+app.use("/workforce-registration", workforceRegistration)
+//
+app.use("/monitor-transported-waste", monitorTransportWaste)
+app.use("/bill-generation-sts", billGeneration)
+app.use("/neighborhood", neighborhood)
+app.use("/work-force-tracking", workforceTracking)
 
 
 //Root Route

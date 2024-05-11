@@ -1,79 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-// import { postEmployee, updateEmployee } from "../../../redux/slices/employeesSlice";
 import { useDispatch } from "react-redux";
 import UpdateIcon from "@mui/icons-material/Update";
 import PersonAddAlt1OutlinedIcon from "@mui/icons-material/PersonAddAlt1Outlined";
+import { getWorkForces, updateWorkForce } from "../../../redux/slices/WorkForcesSlice";
 
-export const WorkForceForm = ({ update = 0, employee = {} }) => {
-  const [viewEmployeeModel, setViewEmployeeModel] = useState(false);
+export const WorkForceForm = ({ update = 0, plan = {} }) => {
+  const [viewPlanModel, setViewPlanModel] = useState(false);
   const dispatch = useDispatch();
-  const [employeeId, setEmployeeId] = useState(update ? employee?.employeeId : "");
-  const [fullName, setFullName] = useState(update ? employee?.fullName : "");
-  const [dateOfBirth, setDateOfBirth] = useState(update ? employee?.dateOfBirth : "");
-  const [dateOfHire, setDateOfHire] = useState(update ? employee?.dateOfHire : "");
-  const [jobTitle, setJobTitle] = useState(update ? employee?.jobTitle : "");
-  const [paymentRatePerHour, setPaymentRatePerHour] = useState(update ? employee?.paymentRatePerHour : "");
-  const [email, setEmail] = useState(update ? employee?.contactInformation?.email : "");
-  const [phoneNumber, setPhoneNumber] = useState(update ? employee?.contactInformation?.phoneNumber : "");
-  const [address, setAddress] = useState(update ? employee?.contactInformation?.address : "");
-  const [assignedCollectionRoute, setAssignedCollectionRoute] = useState(update ? employee?.assignedCollectionRoute : "");
+  const [employeeId, setEmployeeId] = useState(update ? plan?.employeeId : "");
+  const [fullName, setFullName] = useState(update ? plan?.fullName : "");
+  const [dateOfBirth, setDateOfBirth] = useState(update ? plan?.dateOfBirth : "");
+  const [dateOfHire, setDateOfHire] = useState(update ? plan?.dateOfHire : "");
+  const [jobTitle, setJobTitle] = useState(update ? plan?.jobTitle : "");
+  const [paymentPerHour, setPaymentPerHour] = useState(update ? plan?.paymentPerHour : "");
+  const [contactInfo, setContactInfo] = useState(update ? plan?.contactInfo : "");
+  const [assignedRoute, setAssignedRoute] = useState(update ? plan?.assignedRoute : "");
 
-  const toggleAddEmployeeView = () => {
-    setViewEmployeeModel(!viewEmployeeModel);
+  const toggleAddPlanView = () => {
+    setViewPlanModel(!viewPlanModel);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const employeeData = {
-      employeeId,
-      fullName,
-      dateOfBirth,
-      dateOfHire,
-      jobTitle,
-      paymentRatePerHour,
-      contactInformation: {
-        email,
-        phoneNumber,
-        address
-      },
-      assignedCollectionRoute
+    const planData = {
+      employeeId: employeeId,
+      fullName: fullName,
+      dateOfBirth: dateOfBirth,
+      dateOfHire: dateOfHire,
+      jobTitle: jobTitle,
+      paymentPerHour: paymentPerHour,
+      contactInfo: contactInfo,
+      assignedRoute: assignedRoute,
     };
 
-    const employeeDataUp = {
-      employeeId,
-      fullName,
-      dateOfBirth,
-      dateOfHire,
-      jobTitle,
-      paymentRatePerHour,
-      contactInformation: {
-        email,
-        phoneNumber,
-        address
-      },
-      assignedCollectionRoute
+    const planDataUp = {
+      employeeId: employeeId,
+      fullName: fullName,
+      dateOfBirth: dateOfBirth,
+      dateOfHire: dateOfHire,
+      jobTitle: jobTitle,
+      paymentPerHour: paymentPerHour,
+      contactInfo: contactInfo,
+      assignedRoute: assignedRoute,
     };
 
     if (update === 0) {
-      // dispatch(postEmployee(employeeData));
+      dispatch(getWorkForces(planData));
       setEmployeeId("");
       setFullName("");
       setDateOfBirth("");
       setDateOfHire("");
       setJobTitle("");
-      setPaymentRatePerHour("");
-      setEmail("");
-      setPhoneNumber("");
-      setAddress("");
-      setAssignedCollectionRoute("");
-      toggleAddEmployeeView();
-      alert("Employee added successfully");
-    } else if (update === 1) {
-      // dispatch(updateEmployee({ employeeId: employee._id, employeeData: employeeDataUp }));
-      toggleAddEmployeeView();
-      alert("Employee updated successfully");
+      setPaymentPerHour("");
+      setContactInfo("");
+      setAssignedRoute("");
+      toggleAddPlanView();
+      alert("Plan Created Successfully");
+    } else {
+      dispatch(updateWorkForce({ planId: plan._id, planData: planDataUp }));
+      toggleAddPlanView();
+      alert("Plan Updated Successfully");
     }
     window.location.reload();
   };
@@ -86,23 +74,23 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
             variant="contained"
             startIcon={<UpdateIcon />}
             className="w-72"
-            onClick={toggleAddEmployeeView}
+            onClick={toggleAddPlanView}
           >
-            Update Employee
+            Update Workforce
           </Button>
         ) : (
           <Button
             variant="contained"
             className="w-full"
             startIcon={<PersonAddAlt1OutlinedIcon />}
-            onClick={toggleAddEmployeeView}
+            onClick={toggleAddPlanView}
           >
-            Add Employee
+            Add Workforce
           </Button>
         )}
       </div>
 
-      {viewEmployeeModel && (
+      {viewPlanModel && (
         <div className="z-20 fixed top-0 right-0 bottom-0 left-0 z-100 flex justify-center items-center bg-gray-800 bg-opacity-50">
           <div
             style={{
@@ -115,12 +103,12 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {update ? "Update Employee" : "Add Employee"}
+                {update ? "Update Workforce" : "Add new Workforce"}
               </h3>
               <button
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8"
-                onClick={toggleAddEmployeeView}
+                onClick={toggleAddPlanView}
               >
                 <svg
                   className="w-3 h-3"
@@ -147,7 +135,7 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     htmlFor="employeeId"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Employee ID
+                    Workforce ID
                   </label>
                   <input
                     type="text"
@@ -156,7 +144,7 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     value={employeeId}
                     onChange={(e) => setEmployeeId(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type employee ID"
+                    placeholder="Type Employee ID"
                     required
                   />
                 </div>
@@ -174,7 +162,7 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type full name"
+                    placeholder="Type Full Name"
                     required
                   />
                 </div>
@@ -192,6 +180,7 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     value={dateOfBirth}
                     onChange={(e) => setDateOfBirth(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Type Date of Birth"
                     required
                   />
                 </div>
@@ -209,6 +198,7 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     value={dateOfHire}
                     onChange={(e) => setDateOfHire(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Type Date of Hire"
                     required
                   />
                 </div>
@@ -226,103 +216,67 @@ export const WorkForceForm = ({ update = 0, employee = {} }) => {
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type job title"
+                    placeholder="Type Job Title"
                     required
                   />
                 </div>
                 <div className="col-span-2">
                   <label
-                    htmlFor="paymentRatePerHour"
+                    htmlFor="paymentPerHour"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Payment Rate Per Hour
+                    Payment Per Hour
                   </label>
                   <input
                     type="number"
-                    name="paymentRatePerHour"
-                    id="paymentRatePerHour"
-                    value={paymentRatePerHour}
-                    onChange={(e) => setPaymentRatePerHour(e.target.value)}
+                    name="paymentPerHour"
+                    id="paymentPerHour"
+                    value={paymentPerHour}
+                    onChange={(e) => setPaymentPerHour(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type payment rate per hour"
+                    placeholder="Type Payment Per Hour"
                     required
                   />
                 </div>
                 <div className="col-span-2">
                   <label
-                    htmlFor="email"
+                    htmlFor="contactInfo"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type email"
-                    required
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="phoneNumber"
-                    className="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Phone Number
+                    Contact Info
                   </label>
                   <input
                     type="text"
-                    name="phoneNumber"
-                    id="phoneNumber"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    name="contactInfo"
+                    id="contactInfo"
+                    value={contactInfo}
+                    onChange={(e) => setContactInfo(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type phone number"
+                    placeholder="Type Contact Info"
                     required
                   />
                 </div>
                 <div className="col-span-2">
                   <label
-                    htmlFor="address"
+                    htmlFor="assignedRoute"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Address
+                    Assigned Route
                   </label>
                   <input
                     type="text"
-                    name="address"
-                    id="address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    name="assignedRoute"
+                    id="assignedRoute"
+                    value={assignedRoute}
+                    onChange={(e) => setAssignedRoute(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type address"
-                    required
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="assignedCollectionRoute"
-                    className="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Assigned Collection Route
-                  </label>
-                  <input
-                    type="text"
-                    name="assignedCollectionRoute"
-                    id="assignedCollectionRoute"
-                    value={assignedCollectionRoute}
-                    onChange={(e) => setAssignedCollectionRoute(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Type assigned collection route"
+                    placeholder="Type Assigned Route"
                     required
                   />
                 </div>
               </div>
               <Button variant="contained" className="w-full" type="submit">
-                {update ? "Update Employee" : "Add new Employee"}
+                {update ? "Update Workforce" : "Add new Workforce"}
               </Button>
             </form>
           </div>

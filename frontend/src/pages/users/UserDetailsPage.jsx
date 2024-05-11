@@ -17,6 +17,10 @@ import { BillsForm } from "../landﬁll/billing/BillsForm";
 import { getBills } from "../../redux/slices/billSlice";
 import BillsCard from "./BillsCard";
 import { MonitoringTransportedWasteForm } from "../sts/billing/MonitoringTransportedWasteForm";
+import { getMonitorTransportedWaste } from "../../redux/slices/MonitorTransportedWasteSlice";
+import WasteMonitorCard from "./WasteMonitorCard";
+
+
 
 export const UserDetailsPage = () => {
   const { userId } = useParams();
@@ -26,12 +30,15 @@ export const UserDetailsPage = () => {
   const user = useSelector((state) => state.users.data[0]);
   const tranData = useSelector((state) => state.transactions.data);
   const billData = useSelector((state) => state.bills.data);
+  const transportedWasteData = useSelector((state) => state.monitorTransportedWaste.data);
+  const [stsView, setStsView] = useState([1, 0, 0])
 
   const userType = useSelector((state) => state.userType?.userData?.userType);
 
   useEffect(() => {
     dispatch(getUserById(userId));
     dispatch(getTransactions());
+    dispatch(getMonitorTransportedWaste());
     dispatch(getBills());
   }, [dispatch, userId]);
   // console.log("userType",userType);
@@ -49,7 +56,7 @@ export const UserDetailsPage = () => {
   if (!user) {
 
     if (userType === 'admin') {
-      if (!user || !tranData || !billData) {
+      if (!user || !tranData || !billData || !transportedWasteData) {
         return (
           <div>
             <Box sx={{ width: "100%" }}>
@@ -60,7 +67,7 @@ export const UserDetailsPage = () => {
       }
     }
     else if (userType === 'STS Manager') {
-      if (!user || !tranData) {
+      if (!user || !tranData || !transportedWasteData) {
         return (
           <div>
             <Box sx={{ width: "100%" }}>
@@ -95,6 +102,18 @@ export const UserDetailsPage = () => {
       window.location.reload();
     }
   };
+
+  const toggleTransactions = () => {
+    setStsView([1, 0, 0]);
+  }
+  const toggleBillList = () => {
+    setStsView([0, 1, 0]);
+  }
+  const toggleWasteMonitor = () => {
+    setStsView([0, 0, 1]);
+  }
+
+
 
 
 
@@ -138,7 +157,7 @@ export const UserDetailsPage = () => {
       </div>
       <div className="p-10">
         {user.userType === "Landfill Manager" ? (
-          <>
+          <div>
             <BillsForm data={user} />
             <div className=" mt-5">
               <div className=" text-4xl text-center m-2 font-bold">
@@ -146,28 +165,33 @@ export const UserDetailsPage = () => {
               </div>
               <BillsCard billData={billData} />
             </div>
-          </>
+          </div>
         ) : (
           ""
         )}
 
         {user.userType === "STS Manager" ? (
           <>
-            <TransactionForm data={user} />
-            <div className=" mt-2">
-              <Button
-                variant="contained"
-                className="w-auto "
-              >
-                Genarate Today Bill
-              </Button>
-            </div>
-            <MonitoringTransportedWasteForm/>
-            <div className=" mt-5">
-              <div className=" text-4xl text-center m-2 font-bold">
-                Transactions List
+            <div className=" flex">
+              <div><TransactionForm data={user} /></div>
+              <div className=" ml-2">
+                <Button
+                  variant="contained"
+                  className="w-auto "
+                >
+                  Genarate Today Bill
+                </Button>
               </div>
-              <TransCard tranData={tranData} />
+              <MonitoringTransportedWasteForm />
+            </div>
+            <div className=" mt-5">
+              <div className=" flex  text-[20px] font-bold bg-[#0EA5E9] text-gray-900 p-2">
+                <div className=" bg-green-400 p-1 rounded-lg pl-2 pr-2 ml-1 mr-1 cursor-pointer" onClick={toggleTransactions}>Transactions List</div>
+                <div className=" bg-green-400 p-1 rounded-lg pl-2 pr-2 ml-1 mr-1 cursor-pointer" onClick={toggleBillList}>Today Bill List</div>
+                <div className=" bg-green-400 p-1 rounded-lg pl-2 pr-2 ml-1 mr-1 cursor-pointer" onClick={toggleWasteMonitor}>Transported Waste List</div>
+              </div>
+              {stsView[0] && <TransCard tranData={tranData} />}
+              {stsView[2] && <WasteMonitorCard Data={transportedWasteData} />}
             </div>
           </>
         ) : (

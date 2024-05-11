@@ -4,18 +4,19 @@ import { postUser, updateUser } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
 import UpdateIcon from "@mui/icons-material/Update";
 import PersonAddAlt1OutlinedIcon from "@mui/icons-material/PersonAddAlt1Outlined";
+import { postContractorsManager, updateContractorsManager } from "../../redux/slices/ContractorManagerSlice";
 
-export const ContractorManagerForm = ({ update = 0, user = {} }) => {
+export const ContractorManagerForm = ({ update = 1, user = {} }) => {
   const [viewUserModel, setViewUserModel] = useState(false);
   const dispatch = useDispatch();
   const [fullName, setFullName] = useState(update ? user?.fullName : "");
   const [userId, setUserId] = useState(update ? user?.userId : "");
   const [email, setEmail] = useState(update ? user?.email : "");
-  const [accountCreationDate, setAccountCreationDate] = useState(update ? user?.accountCreationDate : "");
+  const [accountCreationDate, setAccountCreationDate] = useState(update ? user?.date : "");
   const [contactNumber, setContactNumber] = useState(update ? user?.contactNumber : "");
   const [assignedContractorCompany, setAssignedContractorCompany] = useState(update ? user?.assignedContractorCompany : "");
   const [accessLevel, setAccessLevel] = useState(update ? user?.accessLevel : "");
-  const [username, setUsername] = useState(update ? user?.username : "");
+  const [username, setUsername] = useState(update ? user?.userName : "");
   const [password, setPassword] = useState(update ? user?.password : "");
 
   const toggleAddUserView = () => {
@@ -26,30 +27,33 @@ export const ContractorManagerForm = ({ update = 0, user = {} }) => {
     event.preventDefault();
 
     const userData = {
-      fullName,
-      userId,
-      email,
-      accountCreationDate,
-      contactNumber,
-      assignedContractorCompany,
-      accessLevel,
-      username,
-      password,
+      "fullName": fullName,
+      "userId": userId,
+      "email": email,
+      "date": accountCreationDate,
+      "contactNumber": contactNumber,
+      "assignedContractorCompany": assignedContractorCompany,
+      "accessLevel": accessLevel,
+      "userName": username,
+      "password": password,
     };
 
     const userDataUp = {
-      fullName,
-      userId,
-      email,
-      accountCreationDate,
-      contactNumber,
-      assignedContractorCompany,
-      accessLevel,
-      username,
+      "fullName": fullName,
+      "userId": userId,
+      "email": email,
+      "date": accountCreationDate,
+      "contactNumber": contactNumber,
+      "assignedContractorCompany": assignedContractorCompany,
+      "accessLevel": accessLevel,
+      "userName": username,
+      "password": password,
     };
 
+    console.log("Update", update);
+
     if (update === 0) {
-      dispatch(postUser(userData));
+      dispatch(postContractorsManager(userData));
       setFullName("");
       setUserId("");
       setEmail("");
@@ -61,8 +65,10 @@ export const ContractorManagerForm = ({ update = 0, user = {} }) => {
       setPassword("");
       toggleAddUserView();
       alert("User Create Successfully");
-    } else if (update === 1) {
-      dispatch(updateUser({ userId: user._id, userData: userDataUp }));
+    } else {
+
+      console.log("updateASFDSAF", update, userDataUp);
+      dispatch(updateContractorsManager({ userId: user._id, userData: userDataUp }));
       toggleAddUserView();
       alert("User Update Successfully");
     }
@@ -71,7 +77,7 @@ export const ContractorManagerForm = ({ update = 0, user = {} }) => {
 
   return (
     <div>
-      <div className=" mt-3">
+      <div className=" ">
         {update ? (
           <Button
             variant="contained"
@@ -79,7 +85,7 @@ export const ContractorManagerForm = ({ update = 0, user = {} }) => {
             className="w-72"
             onClick={toggleAddUserView}
           >
-            Update User
+            Update Contractor Manager
           </Button>
         ) : (
           <Button

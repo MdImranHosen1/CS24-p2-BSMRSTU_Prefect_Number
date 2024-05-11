@@ -3,7 +3,56 @@ import { Link } from "react-router-dom";
 import img from "./../../assets/user.png";
 import ReadMoreOutlinedIcon from "@mui/icons-material/ReadMoreOutlined";
 import { Button } from "@mui/material";
-
+// companyName: {
+//   type: String,
+//     required: true
+// },
+// contractID: {
+//   type: Number,
+//     required: true
+// },
+// registrationID: {
+//   type: String,
+//     required: true,
+//       unique: true,
+//   },
+// registrationDate: {
+//   type: String,
+//     required: true
+// },
+// tin: {
+//   type: String,
+//     required: true,
+//       unique: true,
+//   },
+// contactNum: {
+//   type: String,
+//     required: true
+// },
+// workspaceSize: {
+//   type: String,
+//     required: true
+// },
+// payment: {
+//   type: String,
+//     required: true
+// },
+// wasteRequiredPerDay: {
+//   type: Number,
+//     required: true
+// },
+// contractDuration: {
+//   type: String,
+//     required: true
+// },
+// collectionArea: {
+//   type: String,
+//     required: true
+// },
+// designatedSTS: {
+//   type: String,
+//     required: true
+// }
 export default function Contractors3rdPartyCard({ users }) {
   return (
     <div class="  flex  items-center w-full  bg-white border border-gray-100 rounded-lg shadow   hover:bg-gray-200">
@@ -14,19 +63,24 @@ export default function Contractors3rdPartyCard({ users }) {
       />
       <div class="flex justify-between w-full">
         <div class="p-5">
-        <b>
+          <b>
+
+
             <h1 className="mb-1">Company Name: {users.companyName}</h1>
-            <h4 className="mb-1">Contract ID: {users.contractId}</h4>
+            <h4 className="mb-1">Contract ID: {users.contractID}</h4>
+
+
+
             {/* <h4 className="mb-1">Registration ID: {users.registrationId}</h4>
             <h4 className="mb-1">Registration Date: {users.registrationDate}</h4>
             <h4 className="mb-1">TIN: {users.tin}</h4> */}
-            <h4 className="mb-1">Contact Number: {users.contactNumber}</h4>
-            <h4 className="mb-1">Workforce Size: {users.workforceSize}</h4>
-            <h4 className="mb-1">Payment Per Tonnage: {users.paymentPerTonnage}</h4>
+            <h4 className="mb-1">Contact Number: {users.contactNum}</h4>
+            <h4 className="mb-1">Workforce Size: {users.workspaceSize}</h4>
+            <h4 className="mb-1">Payment Per Tonnage: {users.payment}</h4>
             {/* <h4 className="mb-1">Required Waste Per Day: {users.requiredWastePerDay}</h4> */}
             {/* <h4 className="mb-1">Contract Duration: {users.contractDuration}</h4> */}
-            <h4 className="mb-1">Area of Collection: {users.areaOfCollection}</h4>
-            <h4 className="mb-1">Designated STS: {users.designatedSts}</h4>
+            <h4 className="mb-1">Area of Collection: {users.collectionArea}</h4>
+            <h4 className="mb-1">Designated STS: {users.designatedSTS}</h4>
           </b>
           <a href={`/3rdPartContractor/${users._id}`}>
             <Button

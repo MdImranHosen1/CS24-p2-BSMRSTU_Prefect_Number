@@ -63,7 +63,7 @@ export const LandfillDetailsPage = () => {
             </h4>
             <h4 className="mb-1">Manager Id: {data.managerId}</h4>
           </b>
-
+          
           <LandfillForm update={1} data={data} />
 
           <div className="ml-44">

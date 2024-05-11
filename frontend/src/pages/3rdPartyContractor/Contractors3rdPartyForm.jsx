@@ -4,22 +4,23 @@ import { postUser, updateUser } from "../../redux/slices/usersSlice";
 import { useDispatch } from "react-redux";
 import UpdateIcon from "@mui/icons-material/Update";
 import PersonAddAlt1OutlinedIcon from "@mui/icons-material/PersonAddAlt1Outlined";
+import { postContractors3rdParty, updateContractors3rdParty } from "../../redux/slices/Contractors3rdPartySlice";
 
-export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
+export const Contractors3rdPartyForm = ({ update = 1, user = {} }) => {
   const [viewUserModel, setViewUserModel] = useState(false);
   const dispatch = useDispatch();
   const [companyName, setCompanyName] = useState(update ? user?.companyName : "");
-  const [contractId, setContractId] = useState(update ? user?.contractId : "");
-  const [registrationId, setRegistrationId] = useState(update ? user?.registrationId : "");
+  const [contractId, setContractId] = useState(update ? user?.contractID : "");
+  const [registrationId, setRegistrationId] = useState(update ? user?.registrationID : "");
   const [registrationDate, setRegistrationDate] = useState(update ? user?.registrationDate : "");
   const [tin, setTin] = useState(update ? user?.tin : "");
-  const [contactNumber, setContactNumber] = useState(update ? user?.contactNumber : "");
-  const [workforceSize, setWorkforceSize] = useState(update ? user?.workforceSize : "");
-  const [paymentPerTonnage, setPaymentPerTonnage] = useState(update ? user?.paymentPerTonnage : "");
-  const [wastePerDay, setWastePerDay] = useState(update ? user?.wastePerDay : "");
+  const [contactNumber, setContactNumber] = useState(update ? user?.contactNum : "");
+  const [workforceSize, setWorkforceSize] = useState(update ? user?.workspaceSize : "");
+  const [paymentPerTonnage, setPaymentPerTonnage] = useState(update ? user?.payment : "");
+  const [wastePerDay, setWastePerDay] = useState(update ? user?.wasteRequiredPerDay : "");
   const [contractDuration, setContractDuration] = useState(update ? user?.contractDuration : "");
-  const [areaOfCollection, setAreaOfCollection] = useState(update ? user?.areaOfCollection : "");
-  const [designatedSts, setDesignatedSts] = useState(update ? user?.designatedSts : "");
+  const [areaOfCollection, setAreaOfCollection] = useState(update ? user?.collectionArea : "");
+  const [designatedSts, setDesignatedSts] = useState(update ? user?.designatedSTS : "");
 
   const toggleAddUserView = () => {
     setViewUserModel(!viewUserModel);
@@ -29,37 +30,37 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
     event.preventDefault();
 
     const userData = {
-      companyName,
-      contractId,
-      registrationId,
-      registrationDate,
-      tin,
-      contactNumber,
-      workforceSize,
-      paymentPerTonnage,
-      wastePerDay,
-      contractDuration,
-      areaOfCollection,
-      designatedSts,
+      "companyName": companyName,
+      "contractID": contractId,
+      "registrationID": registrationId,
+      "registrationDate": registrationDate,
+      "tin": tin,
+      "contactNum": contactNumber,
+      "workspaceSize": workforceSize,
+      "payment": paymentPerTonnage,
+      "wasteRequiredPerDay": wastePerDay,
+      "contractDuration": contractDuration,
+      "collectionArea": areaOfCollection,
+      "designatedSTS": designatedSts,
     };
 
     const userDataUp = {
-      companyName,
-      contractId,
-      registrationId,
-      registrationDate,
-      tin,
-      contactNumber,
-      workforceSize,
-      paymentPerTonnage,
-      wastePerDay,
-      contractDuration,
-      areaOfCollection,
-      designatedSts,
+      "companyName": companyName,
+      "contractID": contractId,
+      "registrationID": registrationId,
+      "registrationDate": registrationDate,
+      "tin": tin,
+      "contactNum": contactNumber,
+      "workspaceSize": workforceSize,
+      "payment": paymentPerTonnage,
+      "wasteRequiredPerDay": wastePerDay,
+      "contractDuration": contractDuration,
+      "collectionArea": areaOfCollection,
+      "designatedSTS": designatedSts,
     };
 
     if (update === 0) {
-      dispatch(postUser(userData));
+      dispatch(postContractors3rdParty(userData));
       setCompanyName("");
       setContractId("");
       setRegistrationId("");
@@ -74,8 +75,8 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
       setDesignatedSts("");
       toggleAddUserView();
       alert("User Create Successfully");
-    } else if (update === 1) {
-      dispatch(updateUser({ userId: user._id, userData: userDataUp }));
+    } else {
+      dispatch(updateContractors3rdParty({ userId: user._id, userData: userDataUp }));
       toggleAddUserView();
       alert("User Update Successfully");
     }
@@ -89,7 +90,7 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
           <Button
             variant="contained"
             startIcon={<UpdateIcon />}
-            className="w-72"
+            
             onClick={toggleAddUserView}
           >
             Update 3rd party contractor
@@ -261,7 +262,7 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
                     Workforce size
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="workforceSize"
                     id="workforceSize"
                     value={workforceSize}
@@ -279,7 +280,7 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
                     Payment per tonnage of waste
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="paymentPerTonnage"
                     id="paymentPerTonnage"
                     value={paymentPerTonnage}
@@ -297,7 +298,7 @@ export const Contractors3rdPartyForm = ({ update = 0, user = {} }) => {
                     The required amount of waste per day
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="wastePerDay"
                     id="wastePerDay"
                     value={wastePerDay}

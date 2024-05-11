@@ -4,6 +4,7 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import BusinessIcon from "@mui/icons-material/Business";
 import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import { useDispatch } from "react-redux";
+import { postMonitorTransportedWaste } from "../../../redux/slices/MonitorTransportedWasteSlice";
 
 export const MonitoringTransportedWasteForm = () => {
   const [viewForm, setViewForm] = useState(false);
@@ -23,23 +24,22 @@ export const MonitoringTransportedWasteForm = () => {
     event.preventDefault();
 
     const formData = {
-      timeAndDate,
-      amountWaste,
-      thirdPartyContractorId,
-      typeOfWaste,
-      stsManagerId,
-      vehicleType
+      "amountOfWaste":amountWaste,
+      "contractorId":thirdPartyContractorId,
+      "wasteType":typeOfWaste,
+      "designatedSts":stsManagerId,
+      "vehicleType":vehicleType
     };
 
     // Dispatch your action or handle form submission here
-
+    dispatch(postMonitorTransportedWaste(formData));
     toggleViewForm();
     alert("Form submitted successfully");
   };
 
   return (
     <div>
-      <div className=" flex flex-shrink mt-3">
+      <div className=" flex flex-shrink ml-2">
         <Button
           variant="contained"
           
@@ -90,23 +90,7 @@ export const MonitoringTransportedWasteForm = () => {
             </div>
             <form onSubmit={handleSubmit} className="p-4 md:p-5">
               <div className="grid gap-4 mb-4 grid-cols-2">
-                <div className="col-span-2">
-                  <label
-                    htmlFor="timeAndDate"
-                    className="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Time and Date
-                  </label>
-                  <input
-                    type="datetime-local"
-                    name="timeAndDate"
-                    id="timeAndDate"
-                    value={timeAndDate}
-                    onChange={(e) => setTimeAndDate(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    required
-                  />
-                </div>
+                
                 <div className="col-span-2">
                   <label
                     htmlFor="amountWaste"

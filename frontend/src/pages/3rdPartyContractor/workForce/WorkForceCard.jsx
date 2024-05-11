@@ -5,8 +5,6 @@ import ReadMoreOutlinedIcon from "@mui/icons-material/ReadMoreOutlined";
 import { Button } from "@mui/material";
 
 export default function WorkForceCard({ users }) {
-  console.log(users)
-  console.log("this is workforceCard")
   return (
     <div className="flex items-center w-full bg-white border border-gray-100 rounded-lg shadow hover:bg-gray-200">
       <img
@@ -17,15 +15,14 @@ export default function WorkForceCard({ users }) {
       <div className="flex justify-between w-full">
         <div className="p-5">
           <b>
-
             <h1 className="mb-1">Full Name: {users.fullName}</h1>
             <h4 className="mb-1">Employee ID: {users.employeeId}</h4>
             <h4 className="mb-1">Date of Birth: {users.dateOfBirth}</h4>
             <h4 className="mb-1">Date of Hire: {users.dateOfHire}</h4>
             <h4 className="mb-1">Job Title: {users.jobTitle}</h4>
-            <h4 className="mb-1">Payment Rate Per Hour: {users.paymentRatePerHour}</h4>
-            <h4 className="mb-1">Contact Information: {users.contactInformation.email}, {users.contactInformation.phoneNumber}, {users.contactInformation.address}</h4>
-            <h4 className="mb-1">Assigned Collection Route: {users.assignedCollectionRoute}</h4>
+            <h4 className="mb-1">Payment Rate Per Hour: {users.paymentPerHour}</h4>
+            <h4 className="mb-1">Contact Information: {users.contactInfo}</h4>
+            <h4 className="mb-1">Assigned Collection Route: {users.assignedRoute}</h4>
           </b>
           <Link to={`/3rdPartContractor/workForcePage/${users._id}`}>
             <Button

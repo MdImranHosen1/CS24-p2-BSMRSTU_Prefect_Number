@@ -37,7 +37,7 @@ export const CollectionPlanForm = () => {
 
     return (
         <div>
-            <div className=" mt-5">
+            <div className=" ">
                 <Button
                     variant="contained"
                     onClick={toggleViewForm}
