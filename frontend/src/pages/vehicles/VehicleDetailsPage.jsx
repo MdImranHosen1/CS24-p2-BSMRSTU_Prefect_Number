@@ -22,8 +22,6 @@ export const VehiclesDetailsPage = () => {
 
   const data = useSelector((state) => state.vehicles.data[0]);
 
-  console.log("asdfasd", data);
-
   useEffect(() => {
     dispatch(getVehicleById(id));
   }, [dispatch, id]);

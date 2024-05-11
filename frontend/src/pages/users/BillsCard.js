@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button } from "@mui/material";
 import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import GoogleMapComponent from "./SortestPathMap";
+const coordinate1 = "23.9368507, 90.38473139999999"
+const coordinate2 = "23.9368507, 100.38473139999999"
 
 export const generatePdf = (data) => {
     return (
@@ -17,6 +20,7 @@ export const generatePdf = (data) => {
                     <Text>Total Fuel Cost: {data.totalFuelCost}</Text>
                 </View>
             </Page>
+        
         </Document>
     );
 };
@@ -40,8 +44,9 @@ export default function BillsCard({ billData }) {
     };
 
     return (
-        <>
-            {billData.map((data, index) => (
+        
+            <div>
+                {billData.map((data, index) => (
                 <div key={index} className="flex items-center w-full bg-white border border-gray-100 rounded-lg shadow hover:bg-gray-200 mb-4">
                     <div className="p-5">
                         <b>
@@ -62,6 +67,7 @@ export default function BillsCard({ billData }) {
                             Download Bill
                         </Button>
                     </div>
+                     {/* <GoogleMapComponent coordinate1={coordinate1} coordinate2={coordinate2} /> */}
                 </div>
             ))}
             {showPdf && (
@@ -73,7 +79,12 @@ export default function BillsCard({ billData }) {
                         <Button variant="contained" onClick={() => setShowPdf(false)}>Close</Button>
                     </div>
                 </div>
+
+                
             )}
-        </>
+           
+         </div>
+
+     
     );
 }

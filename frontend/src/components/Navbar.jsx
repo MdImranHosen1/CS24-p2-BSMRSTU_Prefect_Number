@@ -178,7 +178,7 @@ export const Navbar = () => {
                 <Button
                   key={index}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "white", display: "block", background:"#1F82E5" , marginLeft:"3px"}}
                 >
                   {value}
                 </Button>

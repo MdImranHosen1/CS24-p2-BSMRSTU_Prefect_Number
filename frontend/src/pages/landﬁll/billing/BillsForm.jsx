@@ -1,17 +1,23 @@
 // BillsForm.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UpdateIcon from "@mui/icons-material/Update";
 import AddRoadTwoToneIcon from "@mui/icons-material/AddRoadTwoTone";
 import { postBill, updateBill } from "./../../../redux/slices/billSlice";
+import { getStsById } from "../../../redux/slices/stsSlice";
+import { getLandfillById } from "../../../redux/slices/landfullSlice";
+import { useParams } from "react-router-dom";
+import { getUserById } from "../../../redux/slices/usersSlice";
+import SortestPath from "../../users/SortestPath";
+import { getVehicleById } from "../../../redux/slices/vehiclesSlice";
 
 export const BillsForm = ({ update = 0, data = {} }) => {
   const [viewUserModel, setViewUserModel] = useState(false);
 
   const dispatch = useDispatch();
-  const [vtId, setVtId] = useState(update ? data?.vtId : "");
+  const [landFillId, setLandFillId] = useState(update ? data?.landFillId : "");
   const [vId, setVId] = useState(update ? data?.vId : "");
   const [stsId, setStsId] = useState(update ? data?.stsId : "");
   const [weightWaste, setWeightWaste] = useState(
@@ -31,12 +37,38 @@ export const BillsForm = ({ update = 0, data = {} }) => {
     document.body.style.overflow = viewUserModel ? "auto" : "hidden";
     setViewUserModel(!viewUserModel);
   };
+  const { userId } = useParams();
+
+  const staData = useSelector((state) => state.sts.data[0]);
+  const landfilldata = useSelector((state) => state.landfill.data[0]);
+  const vehicleData = useSelector((state) => state.vehicles.data[0]);
+  // console.log("staData", staData, "landfilldata", landfilldata, "userLandfillNum", userLandfillNum, "vehicleData", vehicleData);
+  
+  useEffect(() => {
+    dispatch(getLandfillById(landFillId));
+  }, [dispatch, landFillId]);
+
+  useEffect(() => {
+    dispatch(getStsById(stsId));
+  }, [dispatch, stsId]);
+
+  useEffect(() => {
+    dispatch(getVehicleById(vId));
+  }, [dispatch, vId]);
+
+  if(staData && landfilldata)
+  {
+    const distance = SortestPath(landfilldata?.coordinate, staData?.coordinate)
+  }
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
+
     const billData = {
-      vtId: vtId,
+      landFillId: landFillId,
       vId: vId,
       stsId: stsId,
       weightWaste: weightWaste,
@@ -113,14 +145,14 @@ export const BillsForm = ({ update = 0, data = {} }) => {
                     htmlFor="vtId"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Vehicle Type ID
+                    Landfill ID
                   </label>
                   <input
                     type="text"
                     name="vtId"
                     id="vtId"
-                    value={vtId}
-                    onChange={(e) => setVtId(e.target.value)}
+                    value={landFillId}
+                    onChange={(e) => setLandFillId(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Enter vehicle type ID"
                     required
@@ -214,24 +246,7 @@ export const BillsForm = ({ update = 0, data = {} }) => {
                     required
                   />
                 </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="totalFuelCost"
-                    className="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Total Fuel Cost
-                  </label>
-                  <input
-                    type="number"
-                    name="totalFuelCost"
-                    id="totalFuelCost"
-                    value={totalFuelCost}
-                    onChange={(e) => setTotalFuelCost(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    placeholder="Enter total fuel cost"
-                    required
-                  />
-                </div>
+                
               </div>
               <Button variant="contained" className="w-full" type="submit">
                 {update ? "Update Landfill Bill" : "Add Landfill Bill"}

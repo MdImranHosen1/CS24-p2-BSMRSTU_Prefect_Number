@@ -19,7 +19,8 @@ import BillsCard from "./BillsCard";
 import { MonitoringTransportedWasteForm } from "../sts/billing/MonitoringTransportedWasteForm";
 import { getMonitorTransportedWaste } from "../../redux/slices/MonitorTransportedWasteSlice";
 import WasteMonitorCard from "./WasteMonitorCard";
-
+import GoogleMapComponent from "./SortestPathMap";
+const YOUR_API_KEY = "AIzaSyD4j0TwyOoZTpLmAjJ8j8zlf7jA2ya31MA";
 
 
 export const UserDetailsPage = () => {
@@ -116,7 +117,6 @@ export const UserDetailsPage = () => {
 
 
 
-
   return (
     <div>
       <div className=" flex w-full p-10 h-full ">
@@ -138,27 +138,29 @@ export const UserDetailsPage = () => {
               <h4 className="mb-1">STS/Lanfill :{user.stsOrLandfillNum}</h4>
             </b>
 
-            <UserForm update={1} user={user} />
+            <div className=" flex "><UserForm update={1} user={user} />
 
-            <div className=" mt-16 w-72">
-              {userType === 'admin' ? <Button
-                variant="contained"
-                className="w-72"
-                color="error"
-                onClick={onDeleteUser}
-                startIcon={<DeleteForeverOutlinedIcon />}
-              >
-                Delete User
-              </Button> : ""}
+              <div className="w-72 ml-1 mr-1">
+                {userType === 'admin' ? <Button
+                  variant="contained"
+                  className="w-72"
+                  color="error"
+                  onClick={onDeleteUser}
+                  startIcon={<DeleteForeverOutlinedIcon />}
+                >
+                  Delete User
+                </Button> : ""}
 
-            </div>
+              </div></div>
           </div>
         </div>
       </div>
-      <div className="p-10">
+      <div className=" p-10">
         {user.userType === "Landfill Manager" ? (
           <div>
             <BillsForm data={user} />
+
+            
             <div className=" mt-5">
               <div className=" text-4xl text-center m-2 font-bold">
                 Bills List
