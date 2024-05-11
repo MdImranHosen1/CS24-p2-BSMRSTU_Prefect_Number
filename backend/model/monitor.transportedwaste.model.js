@@ -7,7 +7,7 @@ const MonitorTransportedWaste = mongoose.Schema({
 		required: 'Must have a date'
     },
     amountOfWaste: {
-        type: String,
+        type: Number,
         required: true,
     },
     contractorId: {

@@ -20,6 +20,8 @@ import { MonitoringTransportedWasteForm } from "../sts/billing/MonitoringTranspo
 import { getMonitorTransportedWaste } from "../../redux/slices/MonitorTransportedWasteSlice";
 import WasteMonitorCard from "./WasteMonitorCard";
 import GoogleMapComponent from "./SortestPathMap";
+import { getContractors3rdParty } from "../../redux/slices/Contractors3rdPartySlice";
+import Billcard from "./Billcard";
 const YOUR_API_KEY = "AIzaSyD4j0TwyOoZTpLmAjJ8j8zlf7jA2ya31MA";
 
 
@@ -115,6 +117,58 @@ export const UserDetailsPage = () => {
   }
 
 
+  // const contractor3rd = useSelector((state) => state.contractors3rdParty);
+  // const contractor3rdParty = contractor3rd.contractor3rd;
+
+
+
+  // Genareate Bill by STS manager
+  const genarateSTSBill = () => {
+    dispatch(getMonitorTransportedWaste());
+    dispatch(getContractors3rdParty());
+
+    const totalBill = {};
+    for (let key in transportedWasteData) {
+      const contractorId = transportedWasteData[key].contractorId;
+      const amountOfWaste = transportedWasteData[key].amountOfWaste;
+      if (!totalBill[contractorId]) {
+        totalBill[contractorId] = 0;
+      }
+      totalBill[contractorId] += amountOfWaste;
+    }
+
+  }
+  const LfBillData = [
+    {
+      stsNum: 'STS001',
+      lfNum: 'LF001',
+      vehRegNum: 'ABC123',
+      weightWaste: '1000',
+      arrivalTime: '2024-05-12T10:00:00',
+      departureTime: '2024-05-12T12:00:00',
+      travelDistance: '50'
+    },
+    {
+      stsNum: 'STS002',
+      lfNum: 'LF002',
+      vehRegNum: 'DEF456',
+      weightWaste: '1500',
+      arrivalTime: '2024-05-13T09:00:00',
+      departureTime: '2024-05-13T11:30:00',
+      travelDistance: '60'
+    },
+    {
+      stsNum: 'STS003',
+      lfNum: 'LF003',
+      vehRegNum: 'GHI789',
+      weightWaste: '1200',
+      arrivalTime: '2024-05-14T11:30:00',
+      departureTime: '2024-05-14T14:00:00',
+      travelDistance: '70'
+    }
+  ];
+
+
 
 
   return (
@@ -160,7 +214,7 @@ export const UserDetailsPage = () => {
           <div>
             <BillsForm data={user} />
 
-            
+
             <div className=" mt-5">
               <div className=" text-4xl text-center m-2 font-bold">
                 Bills List
@@ -180,6 +234,7 @@ export const UserDetailsPage = () => {
                 <Button
                   variant="contained"
                   className="w-auto "
+                  onClick={genarateSTSBill}
                 >
                   Genarate Today Bill
                 </Button>
@@ -193,6 +248,7 @@ export const UserDetailsPage = () => {
                 <div className=" bg-green-400 p-1 rounded-lg pl-2 pr-2 ml-1 mr-1 cursor-pointer" onClick={toggleWasteMonitor}>Transported Waste List</div>
               </div>
               {stsView[0] && <TransCard tranData={tranData} />}
+              {stsView[1] && <Billcard event={LfBillData} />}
               {stsView[2] && <WasteMonitorCard Data={transportedWasteData} />}
             </div>
           </>
@@ -223,6 +279,8 @@ export const UserDetailsPage = () => {
           ""
         )}
       </div>
+
+
     </div>
   );
 };

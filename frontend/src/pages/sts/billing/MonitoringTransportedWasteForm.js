@@ -99,7 +99,7 @@ export const MonitoringTransportedWasteForm = () => {
                     Amount of Waste
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="amountWaste"
                     id="amountWaste"
                     value={amountWaste}

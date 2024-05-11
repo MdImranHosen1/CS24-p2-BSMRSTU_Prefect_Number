@@ -91,4 +91,41 @@ router.delete('/:stsId',async (req,res)=>{
     }
 })
 
+
+router.get('/:stsId/bill-generation',async (req,res)=>{
+    const id = req.params.stsId;
+    const sts = await STS.findById({_id:id})
+    console.log(id)
+    console.log(sts)
+    console.log('STS:',sts.stsNum)
+    const stsNum = sts.stsNum
+
+    const thridParty = await thirdPartyContractor.find({designatedSTS:stsNum})
+    console.log(thridParty)
+    // console.log(thridParty[9].wasteRequiredPerDay*10)
+    const designatedSTS = thridParty[0].designatedSTS;
+    console.log(designatedSTS)
+    if(thridParty){
+        try{
+        //    await STS.findByIdAndDelete({_id:id})
+        const wasteCollected = await monitorTransportWaste.find({designatedSts:designatedSTS})
+        console.log('Hello:',wasteCollected)
+        let totalWasteRequiredPerDay = 0;
+        for (const document of wasteCollected) {
+            totalWasteRequiredPerDay += document.wasteRequiredPerDay;
+        }
+        console.log('wc:',totalWasteRequiredPerDay)
+            res.status(201).json(sts)
+        }catch(err){  
+            // console.log(err)
+            res.status(500).json({error:'STS Not Deleted || Error Occur'})
+        }
+    }else{
+        res.status(404).json({error:'STS Not Found'})
+    }
+})
+
+module.exports = router
+
+
 module.exports = router

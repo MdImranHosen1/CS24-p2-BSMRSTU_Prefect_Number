@@ -13,6 +13,7 @@ import contractors3rdPartyReducer from './slices/Contractors3rdPartySlice'
 import  contractorsManagerReducer  from './slices/ContractorManagerSlice'
 import  monitorTransportedWasteReducer  from './slices/MonitorTransportedWasteSlice'
 import WorkForcesReducer from './slices/WorkForcesSlice'
+import  stsBillsReducer from './slices/STSBillSlice'
 
 
 
@@ -32,5 +33,6 @@ export default configureStore({
         contractorsManager: contractorsManagerReducer,
         monitorTransportedWaste:monitorTransportedWasteReducer,
         workForces:WorkForcesReducer,
+        stsBills:stsBillsReducer,
     },
 })
